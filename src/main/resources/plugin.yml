@@ -1,0 +1,17 @@
+name: advancedMaintenance
+version: '${project.version}'
+main: com.tintingpatch.advancedmaintenance.AdvancedMaintenance
+api-version: '1.20'
+
+commands:
+  maintenance:
+    permission: "maintenance.use"
+    description: "Mange maintenance mode"
+    aliases:
+      - mt
+
+
+permissions:
+  maintenance.use:
+    default: op
+    description: "Use the /maintenance command"

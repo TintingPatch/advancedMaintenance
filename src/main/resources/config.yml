@@ -1,0 +1,11 @@
+#Config
+inMaintenance: false
+autoSave: true
+
+#Messages
+notAllowedMessage: "§cServer is currently in maintenance."
+maintenanceMotd: "§cServer is currently in maintenance."
+
+#Data (do not touch)
+groups: ""
+allowedPlayers: ""
