@@ -2,9 +2,11 @@ package com.tintingpatch.advancedmaintenance.object;
 
 import com.tintingpatch.advancedmaintenance.AdvancedMaintenance;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.UUID;
 
 public class ServerState {
@@ -17,14 +19,37 @@ public class ServerState {
 
     public ServerState(){
         inMaintenance = AdvancedMaintenance.getInstance().getConfig().getBoolean("inMaintenance");
-        inMaintenance = AdvancedMaintenance.getInstance().getConfig().getBoolean("autoSave");
+        autoSave = AdvancedMaintenance.getInstance().getConfig().getBoolean("autoSave");
+        Bukkit.getConsoleSender().sendMessage(String.valueOf(autoSave) + String.valueOf(inMaintenance));
         groups = new ArrayList<>();
         allowedPlayers = new ArrayList<>();
+
+        //Load groups
+        ConfigurationSection groupsSection = AdvancedMaintenance.getInstance().getConfig().getConfigurationSection("groups");
+        if(groupsSection != null){
+            for (String key : groupsSection.getKeys(false)) {
+                Group group = new Group(key);
+                group.active = groupsSection.getBoolean(key + ".active");
+                for (String s : groupsSection.getString(key + ".members").split(",")) {
+                    if(!Objects.equals(s, "")){
+                        group.getMembers().add(UUID.fromString(s));
+                    }
+                }
+                groups.add(group);
+            }
+        }
+
+        //Load allowed players
+        for (String s : AdvancedMaintenance.getInstance().getConfig().getString("allowedPlayers").split(",")) {
+            if(!Objects.equals(s, "")){
+                allowedPlayers.add(UUID.fromString(s));
+            }
+        }
+
+
     }
 
     public void save(){
-        AdvancedMaintenance.getInstance().reloadConfig();
-
         //Updating in Maintenance
         AdvancedMaintenance.getInstance().getConfig().set("inMaintenance", inMaintenance);
 

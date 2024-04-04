@@ -53,7 +53,7 @@ public class MaintenanceCommand implements CommandExecutor, TabCompleter {
                     player.playSound(player, Sound.BLOCK_NOTE_BLOCK_FLUTE, 20, 20);
                 }
             }else if (args[0].equalsIgnoreCase("save")){
-                if (!AdvancedMaintenance.getInstance().getServerState().autoSave){
+                if (AdvancedMaintenance.getInstance().getServerState().autoSave){
                     commandSender.sendMessage(prefix + "§r §aAuto save is active. No need to save.");
                 }else {
                     AdvancedMaintenance.getInstance().getServerState().save();
